@@ -24,6 +24,7 @@ pipeline {
 				 echo ' JAR file generated successfully.' 
 				 echo '========================================' 
 				 }
+				}
 
     }
 }
