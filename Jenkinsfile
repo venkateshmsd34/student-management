@@ -15,6 +15,15 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+        stage('Success') 
+        { 
+			steps 
+			{
+				 echo '========================================' 
+				 echo ' Student Management Build Successful!' 
+				 echo ' JAR file generated successfully.' 
+				 echo '========================================' 
+				 }
 
     }
 }
