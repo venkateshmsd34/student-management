@@ -21,7 +21,7 @@ pipeline {
 			{
 				
 				 echo ' Student Management Build Successful!' 
-				 echo ' JAR fil e generated successfully.'
+				 echo ' JAR file generated successfully.'
 				 echo '  webhook added.'  
 			
 				 }
