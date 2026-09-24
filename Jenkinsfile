@@ -19,10 +19,10 @@ pipeline {
         { 
 			steps 
 			{
-				 echo '========================================' 
+				
 				 echo ' Student Management Build Successful!' 
 				 echo ' JAR file generated successfully.' 
-				 echo '========================================' 
+			
 				 }
 				}
 
