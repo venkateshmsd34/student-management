@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    nohup java -jar target/*.jar > app.log 2>&1 & 
+                    nohup java -jar target/*.jar > app.log 2>&1 &
                 '''
             }
         }
