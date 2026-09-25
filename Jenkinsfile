@@ -20,7 +20,7 @@ pipeline {
 			steps 
 			{
 				
-				 echo ' Student Management Build Successful!' 
+				 echo ' Student Manage  ment Build Successful!' 
 				 echo ' JAR file gene rated successfully.'
 				 echo ' Webhook added sucessfully  .'  
 			
