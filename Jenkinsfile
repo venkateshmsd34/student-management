@@ -5,8 +5,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/venkateshmsd34/student-management.git'
+                checkout scm
             }
         }
 
@@ -15,17 +14,26 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
-        stage('Success') 
-        { 
-			steps 
-			{
-				
-				 echo ' Student Management Build Successful!' 
-				 echo ' JAR file generated succefcvssfully.'
-				 echo ' Webhook added sucessfully  .'  
-			
-				 }
-				}
 
+        stage('Stop Old Application') {
+            steps {
+                sh '''
+                    PID=$(lsof -t -i:8080 || true)
+
+                    if [ -n "$PID" ]; then
+                        kill $PID
+                        sleep 5
+                    fi
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    nohup java -jar target/*.jar > app.log 2>&1 &
+                '''
+            }
+        }
     }
 }
