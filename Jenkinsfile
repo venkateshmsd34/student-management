@@ -21,17 +21,26 @@ pipeline {
                     PID=$(lsof -t -i:8081 || true)
 
                     if [ -n "$PID" ]; then
+                        echo "Stopping old application: PID=$PID"
                         kill $PID
                         sleep 5
+                    else
+                        echo "No old application is running"
                     fi
                 '''
             }
         }
 
-        stage('Deploy') {
+        stage('Start Application') {
             steps {
                 sh '''
+                    echo "Starting new application..."
+
                     nohup java -jar target/*.jar > app.log 2>&1 &
+
+                    sleep 10
+
+                    echo "Application started"
                 '''
             }
         }
