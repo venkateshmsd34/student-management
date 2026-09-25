@@ -35,28 +35,28 @@ pipeline {
         }
 
         stage('Start Application') {
-            steps {
-                sh '''
-                    echo "Starting new application..."
+    steps {
+        sh '''
+            echo "Starting new application..."
 
-                    nohup java -jar target/*.jar > app.log 2>&1 < /dev/null &
+            JENKINS_NODE_COOKIE=dontKillMe \
+            nohup java -jar target/*.jar > app.log 2>&1 < /dev/null &
 
-                    APP_PID=$!
+            APP_PID=$!
 
-                    echo "Application PID: $APP_PID"
+            echo "Application PID: $APP_PID"
 
-                    sleep 15
+            sleep 15
 
-                    if kill -0 $APP_PID 2>/dev/null; then
-                        echo "Application started successfully"
-                    else
-                        echo "Application failed to start"
-                        echo "========== APPLICATION LOG =========="
-                        cat app.log
-                        exit 1
-                    fi
-                '''
-            }
-        }
+            if kill -0 $APP_PID 2>/dev/null; then
+                echo "Application is running"
+            else
+                echo "Application failed to start"
+                cat app.log
+                exit 1
+            fi
+        '''
+    }
+}
     }
 }
