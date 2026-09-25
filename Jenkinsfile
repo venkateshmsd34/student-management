@@ -1,4 +1,5 @@
 pipeline {
+
     agent any
 
     stages {
@@ -15,17 +16,45 @@ pipeline {
             }
         }
 
+        stage('Stop Old Application') {
+            steps {
+                sh '''
+                    echo "Checking for old application..."
+
+                    PID=$(lsof -t -i:8081 || true)
+
+                    if [ -n "$PID" ]; then
+                        echo "Stopping old application. PID: $PID"
+                        kill $PID
+                        sleep 5
+                    else
+                        echo "No old application is running"
+                    fi
+                '''
+            }
+        }
 
         stage('Start Application') {
             steps {
                 sh '''
                     echo "Starting new application..."
 
-                    nohup java -jar target/*.jar > app.log 2>&1 &
+                    nohup java -jar target/*.jar > app.log 2>&1 < /dev/null &
 
-                    sleep 10
+                    APP_PID=$!
 
-                    echo "Application started"
+                    echo "Application PID: $APP_PID"
+
+                    sleep 15
+
+                    if kill -0 $APP_PID 2>/dev/null; then
+                        echo "Application started successfully"
+                    else
+                        echo "Application failed to start"
+                        echo "========== APPLICATION LOG =========="
+                        cat app.log
+                        exit 1
+                    fi
                 '''
             }
         }
