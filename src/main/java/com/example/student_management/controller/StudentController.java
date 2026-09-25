@@ -52,7 +52,7 @@ public class StudentController {
     public String deleteStudent(@PathVariable Long id) {
         return service.deleteStudent(id);
     }
-    @GetMapping("/name")
+    @GetMapping("{/name}")
     public String getName() {
     	return "Venkatesh";
     }
